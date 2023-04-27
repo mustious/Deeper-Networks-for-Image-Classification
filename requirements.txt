@@ -1,0 +1,3 @@
+torchinfo
+torchmetrics
+wandb
