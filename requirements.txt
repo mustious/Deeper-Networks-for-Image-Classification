@@ -1,4 +1,4 @@
 torchinfo
 torchmetrics
-wandb\
-mlxtend
+wandb
+mlxtend==0.22
