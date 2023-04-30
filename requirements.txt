@@ -1,3 +1,4 @@
 torchinfo
 torchmetrics
-wandb
+wandb\
+mlxtend
