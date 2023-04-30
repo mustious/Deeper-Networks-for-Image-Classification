@@ -23,7 +23,8 @@ def display_images(image_dataloader: DataLoader, class_labels, n_rows: int =3, n
         axs[i%n_rows, i//n_rows].imshow(image.numpy(), cmap="gray")
         axs[i%n_rows, i//n_rows].set(xticks=[], yticks=[])
         axs[i%n_rows, i//n_rows].set_title(class_labels[label[i]])
-
+        
+    return fig
 
 def display_predicted_images(model, image_dataloader: DataLoader, class_labels, n_rows: int =3, n_cols:int =5, figsize: tuple =(12,6)):
 
@@ -34,11 +35,13 @@ def display_predicted_images(model, image_dataloader: DataLoader, class_labels, 
     n_samples = n_rows * n_cols # number sample images to display
 
     data, label = next(iter(image_dataloader))
+
     model = model.to("cpu")
 
-    model_predictions_logits = model(data)
-    predictions = nn.functional.softmax(model_predictions_logits, dim=0).argmax(dim=1)
-
+    model.eval()
+    with torch.inference_mode():
+        model_predictions_logits = model(data)
+        predictions = nn.functional.softmax(model_predictions_logits, dim=0).argmax(dim=1)
 
     fig, axs = plt.subplots(nrows=n_rows, ncols=n_cols, figsize=figsize)
 
@@ -49,3 +52,5 @@ def display_predicted_images(model, image_dataloader: DataLoader, class_labels, 
         axs[i%n_rows, i//n_rows].set(xticks=[], yticks=[])
         title = f"Actutual Class {class_labels[label[i]]}\n Predicted Class: {class_labels[predictions[i]]}"
         axs[i%n_rows, i//n_rows].set_title(title)
+
+    return fig
