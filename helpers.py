@@ -1,9 +1,8 @@
 import torch
+from torch import nn
 from torch.utils.data import DataLoader
 
 import matplotlib.pyplot as plt
-
-
 
 
 def display_images(image_dataloader: DataLoader, class_labels, n_rows: int =3, n_cols:int =5, figsize: tuple =(12,6)):
@@ -34,7 +33,7 @@ def display_predicted_images(model, image_dataloader: DataLoader, class_labels, 
     # display MNIST sample images
     n_samples = n_rows * n_cols # number sample images to display
 
-    data, label = next(iter(test_dataloader))
+    data, label = next(iter(image_dataloader))
     model = model.to("cpu")
 
     model_predictions_logits = model(data)
